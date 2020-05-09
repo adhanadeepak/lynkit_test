@@ -3,6 +3,13 @@
 #home-page{
   padding: 16px;
   height: 100%;
+
+
+  header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .top-row{

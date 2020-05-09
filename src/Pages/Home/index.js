@@ -8,13 +8,16 @@ import {OutTable, ExcelRenderer} from 'react-excel-renderer';
 import pkg from '../../../package.json';
 import html2pdf from 'html2pdf.js';
 
+import {useHistory} from 'react-router-dom';
+
 
 function Index(props) {
 
     const [cols, setCols] = useState([]);
     const [rows, setRows] = useState([]);
     const [fileName, setFileName] = useState('');
-    let ref = useRef(null);
+
+    let history = useHistory();
 
     const handleFileUpload = (e) => {
         e.preventDefault();
@@ -54,10 +57,16 @@ function Index(props) {
         html2pdf().set(opt).from(table).save();
     };
 
+    const logout = () => {
+        delete localStorage['login'];
+        history.push('/login')
+    };
+
     return (
         <div id={`home-page`}>
             <header className={`text-left`}>
                 <h5 className={`user-email`}>Email : {localStorage['user_email'] || ''}</h5>
+                <button className={`btn btn-primary`} onClick={() => logout()}>Logout</button>
             </header>
             <div className={`top-row`}>
                 <label htmlFor="excel-input-file" className={`block text-left`}>Upload</label>
@@ -76,7 +85,7 @@ function Index(props) {
 
             </div>
 
-            <div id={`excel-table`} className={`table`} ref={ref}>
+            <div id={`excel-table`} className={`table`}>
                 <OutTable data={rows}  columns={cols} tableClassName="ExcelTable2007" tableHeaderRowClass="heading" />
             </div>
         </div>
